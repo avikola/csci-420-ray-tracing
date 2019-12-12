@@ -1,13 +1,9 @@
-Avishkar Kolahalu
-
-------------------
-
 
 Input files available to test:
-test2.txt
+
+default.txt
 spheres.txt
 table.txt
-
 
 
 Feature:                                 Status: finish? (yes/no)
@@ -30,19 +26,6 @@ Feature:                                 Status: finish? (yes/no)
 
 
 6) Still images                           yes
-
-
-Image Details:
-(images located in the 'screenshots' folder)
-
-000.jpg - test2.txt
-001.jpg - test2.txt - with anti-aliasing
-
-002.jpg - spheres.txt
-003.jpg - spheres.txt - with anti-aliasing
-
-004.jpg - table.txt
-005.jpg - table.txt - with anti-aliasing
 
 
 • Implemented Anti-Aliasing:
