@@ -1,5 +1,6 @@
 
 *.ipch
-raytracing-demo/.vs/raytracing-demo/v15/Browse.VC.opendb
-raytracing-demo/.vs/raytracing-demo/v15/Browse.VC.db
-raytracing-demo/.vs/raytracing-demo/v15/.suo
+raytracing-demo/.vs/
+raytracing-demo/Debug/
+Debug/
+.vs/

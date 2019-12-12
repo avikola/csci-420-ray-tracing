@@ -1,8 +1,6 @@
 /*
-	CSCI 420
-	Assignment 3 Raytracer
-
-	Name: Avishkar Kolahalu
+	Raytracer
+	- Avishkar Kolahalu
 */
 
 #include <windows.h>
@@ -39,14 +37,13 @@ int mode = MODE_DISPLAY;
 // Anti-aliasing by supersampling - Change to test - (Higher value takes longer) - Change to 1 to remove.
 #define SAMPLER_VALUE 3
 
-double sampled_height = HEIGHT * SAMPLER_VALUE;		// Height bound.
-double sampled_width = WIDTH * SAMPLER_VALUE;		// Width bound.
+double sampled_height = HEIGHT * SAMPLER_VALUE;	// Height bound.
+double sampled_width = WIDTH * SAMPLER_VALUE;	// Width bound.
 
 #define fov 60.0	// Field of view of camera.
 
 unsigned char buffer[HEIGHT][WIDTH][3];
 
-// Screen space width and height:
 double screen_space_width = 0.0, screen_space_height = 0.0;
 
 struct Vertex
@@ -58,13 +55,13 @@ struct Vertex
 	double shininess;
 };
 
-// For x, y, z values.
+// For x, y, z values
 struct point
 {
 	double x, y, z;
 };
 
-// For r, g, b values.
+// For r, g, b values
 struct colour
 {
 	double r, g, b;
@@ -90,11 +87,11 @@ typedef struct _Light
 	double color[3];
 } Light;
 
-// Ray structure.
+// Ray structure
 struct ray_t
 {
-	point d;		// direction.
-	point o;		// origin.
+	point d;	// direction.
+	point o;	// origin.
 };
 
 Triangle triangles[MAX_TRIANGLES];
@@ -107,15 +104,15 @@ int num_triangles = 0, num_spheres = 0, num_lights = 0;
 
 // Corners of the screen space:
 
-point left_top;		// Left-top of screen.
-point left_bottom;	// Left-bottom of screen.
+point left_top;		// Left-top of screen
+point left_bottom;	// Left-bottom of screen
 
-point right_top;	// Right-top of screen.
-point right_bottom;	// Right-bottom of screen.
+point right_top;	// Right-top of screen
+point right_bottom;	// Right-bottom of screen
 
 point cam_point = { 0.0, 0.0, 0.0 };
 
-colour** pixels;	// Screen pixel matrix that stores rgb values.
+colour** pixels;	// Screen pixel matrix that stores rgb values
 
 void plot_pixel_display(int x, int y, unsigned char r, unsigned char g, unsigned char b)
 {
@@ -137,7 +134,8 @@ void plot_pixel(int x, int y, unsigned char r, unsigned char g, unsigned char b)
 		plot_pixel_jpeg(x, y, r, g, b);
 }
 
-point rayPosition(ray_t shot_ray, double t)		// Calculates r(t) = o + td
+// Calculates r(t) = o + td
+point rayPosition(ray_t shot_ray, double t)
 {
 	point ray;
 
@@ -148,13 +146,14 @@ point rayPosition(ray_t shot_ray, double t)		// Calculates r(t) = o + td
 	return ray;
 }
 
-double dotProduct(point t1, point t2)	// Dot product.
+// Dot product
+double dotProduct(point t1, point t2)
 {
-	double temp = ((t1.x * t2.x) + (t1.y * t2.y) + (t1.z * t2.z));
-	return temp;
+	return (t1.x * t2.x) + (t1.y * t2.y) + (t1.z * t2.z);
 }
 
-point xProduct(point t1, point t2)		// Cross product.
+// Cross product
+point xProduct(point t1, point t2)
 {
 	point temp;
 
@@ -165,7 +164,8 @@ point xProduct(point t1, point t2)		// Cross product.
 	return temp;
 }
 
-double calcDist(point t1, point t2)		// Distance between 2 points.
+// Distance between 2 points
+double calcDist(point t1, point t2)
 {
 	double x_d, y_d, z_d;
 
@@ -176,7 +176,8 @@ double calcDist(point t1, point t2)		// Distance between 2 points.
 	return sqrt((x_d * x_d) + (y_d * y_d) + (z_d * z_d));
 }
 
-point normalise(point t1)				// Normaliser.
+// Normaliser
+point normalise(point t1)	
 {
 	double n_d = sqrt((t1.x * t1.x) + (t1.y * t1.y) + (t1.z * t1.z));
 
@@ -187,7 +188,8 @@ point normalise(point t1)				// Normaliser.
 	return t1;
 }
 
-point coordSubtract(point t1, point t2)		// Vector Subtraction.
+// Vector Subtraction
+point coordSubtract(point t1, point t2)
 {
 	point temp;
 
@@ -198,7 +200,8 @@ point coordSubtract(point t1, point t2)		// Vector Subtraction.
 	return temp;
 }
 
-point Reflector(point incident, point normal)	// Find Reflection, given the normal.
+// Find Reflection, given the normal
+point Reflector(point incident, point normal)
 {
 	double cos = dotProduct(incident, normal);
 
@@ -211,7 +214,7 @@ point Reflector(point incident, point normal)	// Find Reflection, given the norm
 	return reflection;
 }
 
-// Intersection check - Ray and Light source.
+// Intersection check - Ray x Light source
 bool xLightSrc(int light_no, ray_t shot_ray, double &x_dist)
 {
 	double y_dist, z_dist;
@@ -226,11 +229,12 @@ bool xLightSrc(int light_no, ray_t shot_ray, double &x_dist)
 		return true;
 }
 
-// Intersection check - Ray and Sphere. (per slides)
+// Intersection check - Ray x Sphere
 bool xSphere(int i_sph, ray_t shot_ray, point &N, double &dist)
 {
 	double b, c, calc, t0, t1, x_diff, y_diff, z_diff, s_x, s_y, s_z;
 	point temp;
+
 	// Calculate Solution: 
 
 	s_x = spheres[i_sph].position[0];
@@ -258,18 +262,16 @@ bool xSphere(int i_sph, ray_t shot_ray, point &N, double &dist)
 	else
 		return false;
 
-	// Ensure both aren't less than zero.
+	// Ensure both aren't less than zero
 	if (t1 <= 0 && t0 <= 0)
 		return false;
 
-	else
-	{
-		// Find minimal of the solutions:
-		(t0 > 0 && t1 > 0) ? dist = MIN(t0, t1) : dist = MAX(t0, t1);
+	// Find minimal of the solutions:
+	(t0 > 0 && t1 > 0) ? dist = MIN(t0, t1) : dist = MAX(t0, t1);
 
-		if (dist <= 0.000001)		// limiter.
-			return false;
-	}
+	// limiter
+	if (dist <= 0.000001)
+		return false;	
 
 	temp = rayPosition(shot_ray, dist);
 
@@ -284,10 +286,10 @@ bool xSphere(int i_sph, ray_t shot_ray, point &N, double &dist)
 	return true;
 }
 
-// Intersection check - Ray and Triangle. (per slides)
+// Intersection check - Ray and Triangle
 bool xTriangle(int i_tri, ray_t shot_ray, point &N, double &alpha, double &beta, double &gamma, double &t)
 {
-	point p, p1, p2, p3, temp;		// The points on the triangle.
+	point p, p1, p2, p3, temp;	// The points on the triangle
 	double n_dot_d, area;
 
 	p1.x = triangles[i_tri].v[0].position[0];
@@ -304,17 +306,19 @@ bool xTriangle(int i_tri, ray_t shot_ray, point &N, double &alpha, double &beta,
 
 	temp = xProduct(coordSubtract(p2, p1), coordSubtract(p3, p1));
 
-	N = normalise(temp);		// Normal.
+	N = normalise(temp);	// Normal
 
 	n_dot_d = dotProduct(N, shot_ray.d);
 
+	// n.d = 0; therefore, no intersection
 	if (n_dot_d == 0.0)
-		return false;			// n.d = 0; therefore, no intersection.
+		return false;
 
-	t = -(dotProduct(N, coordSubtract(shot_ray.o, p1))) / n_dot_d;		//	-(n.p1 + d)/n.d
+	t = -(dotProduct(N, coordSubtract(shot_ray.o, p1))) / n_dot_d;	//	-(n.p1 + d)/n.d
 
+	// Intersection is behind ray origin
 	if (round(t) <= 0)
-		return false;			// Intersection is behind ray origin.
+		return false;
 
 	// Intersection Test:
 
@@ -329,9 +333,10 @@ bool xTriangle(int i_tri, ray_t shot_ray, point &N, double &alpha, double &beta,
 	temp = xProduct(coordSubtract(p2, p1), coordSubtract(p, p1));
 	gamma = dotProduct(N, temp);		// Area(p1p2p)
 
-	if (alpha >= 0 && beta >= 0 && gamma >= 0)	// Intersection within Triangle.
+	// Intersection within Triangle
+	if (alpha >= 0 && beta >= 0 && gamma >= 0)
 	{
-		area = dotProduct(N, xProduct(coordSubtract(p2, p1), coordSubtract(p3, p1)));		// Triangle Area.
+		area = dotProduct(N, xProduct(coordSubtract(p2, p1), coordSubtract(p3, p1)));	// Triangle Area
 
 		alpha = alpha / area;
 		beta = beta / area;
@@ -340,25 +345,25 @@ bool xTriangle(int i_tri, ray_t shot_ray, point &N, double &alpha, double &beta,
 		return true;
 	}
 
-	else
-		return false;
+	return false;
 }
 
-// Phong Model function.
+// Phong Model function
 void phongShader(point int_point, point N, colour &Colour, point kd, point ks, double shiny, point viewer)
 {
-	int i_light, i_sph, i_tri;	// indices.
+	int i_light, i_sph, i_tri;	// Indices
 
 	bool shadow_checker;
 
 	point light_xyz, int_dir, t1_normal, t2_normal;
-	ray_t shade;		// Shadow Ray.
+	ray_t shade;		// Shadow Ray
 
 	double light_dist, sph_dist;
 	double tri_dist, a, b, c;
 	double cos_theta, cos_phi, Lr, Lg, Lb;
 
-	for (i_light = 0; i_light < num_lights; i_light++)		// Send shadow ray to every light.
+	// Send shadow ray to every light
+	for (i_light = 0; i_light < num_lights; i_light++)
 	{
 		shadow_checker = false;
 
@@ -366,7 +371,7 @@ void phongShader(point int_point, point N, colour &Colour, point kd, point ks, d
 		light_xyz.y = lights[i_light].position[1];
 		light_xyz.z = lights[i_light].position[2];
 
-		light_dist = calcDist(light_xyz, int_point);		// Distance b/w origin point and light source.
+		light_dist = calcDist(light_xyz, int_point);	// Distance b/w origin point and light source
 
 		int_dir.x = lights[i_light].position[0] - int_point.x;
 		int_dir.y = lights[i_light].position[1] - int_point.y;
@@ -374,7 +379,7 @@ void phongShader(point int_point, point N, colour &Colour, point kd, point ks, d
 
 		int_dir = normalise(int_dir);
 
-		// Ray shot towards light source.
+		// Ray shot towards light source
 		shade.o = int_point;
 		shade.d = int_dir;
 
@@ -382,7 +387,7 @@ void phongShader(point int_point, point N, colour &Colour, point kd, point ks, d
 		for (i_sph = 0; i_sph < num_spheres; i_sph++)
 			if (xSphere(i_sph, shade, t1_normal, sph_dist))
 				if (calcDist(rayPosition(shade, sph_dist), int_point) <= light_dist)
-					shadow_checker = true;		// Reached sphere before reaching a light source. So, it's in shadow.
+					shadow_checker = true;		// Reached sphere before reaching a light source. So, it's in shadow
 
 		// Check Shadow Ray Intersection with Triangles.
 		for (i_tri = 0; i_tri < num_triangles; i_tri++)
@@ -400,6 +405,7 @@ void phongShader(point int_point, point N, colour &Colour, point kd, point ks, d
 			// Clamp: 
 			if (cos_theta < 0.0)
 				cos_theta = 0.0;
+
 			if (cos_phi < 0.0)
 				cos_phi = 0.0;
 
@@ -420,25 +426,25 @@ void phongShader(point int_point, point N, colour &Colour, point kd, point ks, d
 	}
 }
 
-// Raytracer function.
+// Raytracer Function
 void raytracer(ray_t shot_ray, colour &RGB)
 {
-	point N_S, N_T;					// Normals.
-	point x_S, x_T;					// Intersection points.
-	point kd_S, kd_T, ks_S, ks_T;	// Coefficients.
-	point v_S, v_T;					// To Viewer.
+	point N_S, N_T;					// Normals
+	point x_S, x_T;					// Intersection points
+	point kd_S, kd_T, ks_S, ks_T;	// Coefficients
+	point v_S, v_T;					// To Viewer
 
 	colour Colour_S, Colour_T;
 
 	int i;
 
-	bool x_checker = false;		// Intersection checker.
+	bool x_checker = false;	// Intersection checker
 
 	double light_dist, sph_dist, tri_dist, shiny, shiny_T, a, b, g;
 
-	double min_obj_dist = 1000000000.0;		// Tracks closer objects.
+	double min_obj_dist = 1000000000.0;	// Tracks closer objects
 
-	// Triangle Intersection check with every triangle.
+	// Triangle Intersection check with every triangle
 	for (int index = 0; index < num_triangles; index++)
 		if (xTriangle(index, shot_ray, N_T, a, b, g, tri_dist))
 			if (min_obj_dist > tri_dist)
@@ -506,9 +512,9 @@ void raytracer(ray_t shot_ray, colour &RGB)
 
 
 				Colour_T = { 0.0,0.0,0.0 };
-				x_T = rayPosition(shot_ray, tri_dist);		// Intersection point.
+				x_T = rayPosition(shot_ray, tri_dist);	// Intersection point
 
-				phongShader(x_T, N_T, Colour_T, kd_T, ks_T, shiny_T, v_T);	// Calc. the colour.
+				phongShader(x_T, N_T, Colour_T, kd_T, ks_T, shiny_T, v_T);	// Calc. the colour
 
 				RGB.r = 255.0 * Colour_T.r;
 				RGB.g = 255.0 * Colour_T.g;
@@ -517,7 +523,7 @@ void raytracer(ray_t shot_ray, colour &RGB)
 				x_checker = true;
 			}
 
-	// Sphere Intersection check with every sphere.
+	// Sphere Intersection check with every sphere
 	for (i = 0; i < num_spheres; i++)
 		if (xSphere(i, shot_ray, N_S, sph_dist))
 			if (min_obj_dist > sph_dist)
@@ -550,9 +556,9 @@ void raytracer(ray_t shot_ray, colour &RGB)
 
 
 				Colour_S = { 0.0, 0.0, 0.0 };
-				x_S = rayPosition(shot_ray, sph_dist);	// Intersection point.
+				x_S = rayPosition(shot_ray, sph_dist);	// Intersection point
 
-				phongShader(x_S, N_S, Colour_S, kd_S, ks_S, shiny, v_S);	// Calc. the colour.
+				phongShader(x_S, N_S, Colour_S, kd_S, ks_S, shiny, v_S);	// Calc. the colour
 
 				RGB.r = 255.0 * Colour_S.r;
 				RGB.g = 255.0 * Colour_S.g;
@@ -561,7 +567,7 @@ void raytracer(ray_t shot_ray, colour &RGB)
 				x_checker = true;
 			}
 
-	// Light Source Intersection check with every light source.
+	// Light Source Intersection check with every light source
 	for (i = 0; i < num_lights; i++)
 		if (xLightSrc(i, shot_ray, light_dist))
 			if (min_obj_dist > light_dist)
@@ -590,20 +596,19 @@ void raytracer(ray_t shot_ray, colour &RGB)
 		RGB = { 255.0, 255.0, 255.0 };
 }
 
-// MODIFY THIS FUNCTION - done.
 void draw_scene()
 {
-	double width_jump;	// To skip to the next column.
-	double height_jump;	// To skip to the next row.
+	double width_jump;	// To skip to the next column
+	double height_jump;	// To skip to the next row
 
 	double x, y;
 	int row, col;
 
-	point pixel_xyz;	// Pixel co-ordinates.
-	ray_t shot_ray;		// Shot ray.
+	point pixel_xyz;	// Pixel co-ordinates
+	ray_t shot_ray;		// Shot ray
 	colour RGB;
 
-	pixel_xyz.z = -1.0;	// z is always -1.0.
+	pixel_xyz.z = -1.0;	// z is always -1.0
 
 	width_jump = screen_space_width / (sampled_width);
 	height_jump = screen_space_height / (sampled_height);
@@ -613,19 +618,20 @@ void draw_scene()
 	for (row = 0, y = left_bottom.y; row < sampled_height; row++, y += height_jump)
 		for (col = 0, x = left_bottom.x; col < sampled_width; col++, x += width_jump)
 		{
-			RGB = { 0.0, 0.0, 0.0 };		// Init r, g, b values.
+			RGB = { 0.0, 0.0, 0.0 };		// Init r, g, b values
 
-			// Iterative pixel traversal to shoot rays.
+			// Iterative pixel traversal to shoot rays
 			pixel_xyz.x = x;
 			pixel_xyz.y = y;
 
-			// Ray shot from camera origin.
+			// Ray shot from camera origin
 			shot_ray.o = cam_point;
 
-			// Direction of ray to be shot through pixel position.
+			// Direction of ray to be shot through pixel position
 			shot_ray.d = normalise(coordSubtract(pixel_xyz, cam_point));
 
-			raytracer(shot_ray, RGB);		// Trace the shot ray.
+			// Trace the shot ray
+			raytracer(shot_ray, RGB);
 
 			// Clamp:
 
@@ -649,7 +655,7 @@ void draw_scene()
 
 	int c_width, c_height, w, h;
 	double red, green, blue;
-	double avger = SAMPLER_VALUE * SAMPLER_VALUE;		// Averager.
+	double avger = SAMPLER_VALUE * SAMPLER_VALUE;	// Averager
 
 	for (c_width = 0, col = 0; c_width < sampled_width; c_width += SAMPLER_VALUE, col++)
 	{
@@ -678,33 +684,32 @@ void draw_scene()
 	printf("Done!\n");
 }
 
-/* Write a jpg image from buffer*/
+// Write a jpg image from buffer
 void save_jpg()
 {
 	if (filename == NULL)
 		return;
 
-	// Allocate a picture buffer // 
-	cv::Mat3b bufferBGR = cv::Mat::zeros(HEIGHT, WIDTH, CV_8UC3); //rows, cols, 3-channel 8-bit.
+	// Allocate a picture buffer
+	cv::Mat3b bufferBGR = cv::Mat::zeros(HEIGHT, WIDTH, CV_8UC3); // rows, cols, 3-channel 8-bit
 	printf("File to save to: %s\n", filename);
 
 	// unsigned char buffer[HEIGHT][WIDTH][3];
-	for (int r = 0; r < HEIGHT; r++) {
-		for (int c = 0; c < WIDTH; c++) {
-			for (int chan = 0; chan < 3; chan++) {
+	for (int r = 0; r < HEIGHT; r++)
+		for (int c = 0; c < WIDTH; c++)
+			for (int chan = 0; chan < 3; chan++)
+			{
 				unsigned char red = buffer[r][c][0];
 				unsigned char green = buffer[r][c][1];
 				unsigned char blue = buffer[r][c][2];
 				bufferBGR.at<cv::Vec3b>(r, c) = cv::Vec3b(blue, green, red);
 			}
-		}
-	}
-	if (cv::imwrite(filename, bufferBGR)) {
+
+	if (cv::imwrite(filename, bufferBGR)) 
 		printf("File saved Successfully\n");
-	}
-	else {
+
+	else 
 		printf("Error in Saving\n");
-	}
 
 }
 
@@ -745,6 +750,7 @@ void parse_shi(FILE*file, double *shi)
 	printf("shi: %f\n", *shi);
 }
 
+// Load scene from cmd line specified text file
 int loadScene(char *argv)
 {
 	FILE *file;
@@ -827,9 +833,7 @@ int loadScene(char *argv)
 	return 0;
 }
 
-void display()
-{
-}
+void display() { }
 
 void init()
 {
@@ -843,7 +847,7 @@ void init()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glClearColor(1.0, 1.0, 1.0, 0);		// White Background as suggested.
+	glClearColor(1.0, 1.0, 1.0, 0);	// White Background as suggested
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Find the four corners:
@@ -881,7 +885,6 @@ void init()
 
 void idle()
 {
-	//hack to make it only draw once
 	static int once = 0;
 	if (!once)
 	{
