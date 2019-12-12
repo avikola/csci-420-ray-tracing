@@ -1,10 +1,4 @@
-Assignment #3: Ray tracing
-
-FULL NAME: Avishkar Kolahalu
-   USC ID: 6138-4283-68
-
-
-MANDATORY FEATURES
+Avishkar Kolahalu
 
 ------------------
 
@@ -50,10 +44,9 @@ Image Details:
 004.jpg - table.txt
 005.jpg - table.txt - with anti-aliasing
 
-7) Extra Credit (up to 20 points)
-   
-	� Good anti-aliasing:
-		Used direct supersampling method to deal with aliasing.
-		Current grid size is 3x3.
-		Change SAMPLER_VALUE on line 44 to change the grid size.
+
+• Implemented Anti-Aliasing:
+	• Used direct supersampling method to deal with aliasing.
+	• Current grid size is 3x3.
+	• Change SAMPLER_VALUE to adjust the grid size.
 		Note: higher values take a longer time.
