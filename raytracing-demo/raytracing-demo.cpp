@@ -31,8 +31,8 @@ char *filename = 0;
 int mode = MODE_DISPLAY;
 
 // Window Size:
-#define WIDTH 320
-#define HEIGHT 240
+#define WIDTH 640 //320
+#define HEIGHT 480 //240
 
 // Anti-aliasing by supersampling - Change to test - (Higher value takes longer) - Change to 1 to remove.
 #define SAMPLER_VALUE 3
@@ -918,7 +918,7 @@ int main(int argc, char ** argv)
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(WIDTH, HEIGHT);
 
-	glutCreateWindow("Assignment 3: Ray Tracing - Avishkar Kolahalu");
+	glutCreateWindow("Ray Tracing - Avishkar Kolahalu");
 
 	glutDisplayFunc(display);
 	glutIdleFunc(idle);
