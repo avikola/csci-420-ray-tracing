@@ -2,7 +2,9 @@
 A ray tracer to handle opaque surfaces with lighting and shadows to realistically render a scene.
 
 Change `SAMPLER_VALUE` on line #38 to alter anti-aliasing settings. (higher values take longer to render)\
+
 Default is 3, which implies a 3x3 grid for direct supersampling.\
+
 Setting it to a value of 1 turns AA off.
 
 ## Results
