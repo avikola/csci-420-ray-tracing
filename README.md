@@ -13,7 +13,7 @@ Setting it to a value of 1 turns it off.
 ### Default Scene with Anti-Aliasing + `SAMPLER_VALUE 3`
 
 
-![](raytracing-demo/images/default%20scene%20-%20qsampler%20value%203%20-%20AA.png)
+![](raytracing-demo/images/default%20scene%20-%20sampler%20value%203%20-%20AA.png)
 
 
 ### Multiple Spheres Scene without Anti-Aliasing
@@ -25,7 +25,7 @@ Setting it to a value of 1 turns it off.
 ### Multiple Spheres Scene with Anti-Aliasing + `SAMPLER_VALUE 3`
 
 
-![](raytracing-demo/images/spheres%20-%20qsampler%20value%203%20-%20AA.png)
+![](raytracing-demo/images/spheres%20-%20sampler%20value%203%20-%20AA.png)
 
 
 ### Table Scene without Anti-Aliasing
