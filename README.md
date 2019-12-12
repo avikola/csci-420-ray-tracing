@@ -16,6 +16,7 @@ Setting it to a value of 1 turns it off.
 ![](raytracing-demo/images/default%20scene%20-%20sampler%20value%203%20-%20AA.png)
 
 
+---
 ### Multiple Spheres Scene without Anti-Aliasing
 
 
@@ -28,6 +29,7 @@ Setting it to a value of 1 turns it off.
 ![](raytracing-demo/images/spheres%20-%20sampler%20value%203%20-%20AA.png)
 
 
+---
 ### Table Scene without Anti-Aliasing
 
 
@@ -39,3 +41,5 @@ Setting it to a value of 1 turns it off.
 
 ![](raytracing-demo/images/table%20scene%20-%20sampler%20value%203%20-%20AA.png)
 
+
+---
