@@ -37,5 +37,5 @@ Setting it to a value of 1 turns it off.
 ### Table Scene with Anti-Aliasing + `SAMPLER_VALUE 3`
 
 
-![](raytracing-demo/images/table%20scene%20-%20qsampler%20value%203%20-%20AA.png)
+![](raytracing-demo/images/table%20scene%20-%20sampler%20value%203%20-%20AA.png)
 
