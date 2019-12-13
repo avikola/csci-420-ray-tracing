@@ -11,38 +11,36 @@ Setting it to a value of 1 turns AA off.
 
 ### Default Scene without Anti-Aliasing
 
-![](raytracing-demo/images/default%20scene%20-%20no%20AA.png)
+![Default Scene](raytracing-demo/images/default%20scene%20-%20no%20AA.png)
 
 ### Default Scene with Anti-Aliasing + `SAMPLER_VALUE 3`
 
 
-![](raytracing-demo/images/default%20scene%20-%20sampler%20value%203%20-%20AA.png)
+![Default Scene with Anti-Aliasing](raytracing-demo/images/default%20scene%20-%20sampler%20value%203%20-%20AA.png)
 
 
 ---
 ### Multiple Spheres Scene without Anti-Aliasing
 
 
-![](raytracing-demo/images/spheres%20-%20no%20AA.png)
+![Multiple Spheres Scene](raytracing-demo/images/spheres%20-%20no%20AA.png)
 
 
 ### Multiple Spheres Scene with Anti-Aliasing + `SAMPLER_VALUE 3`
 
 
-![](raytracing-demo/images/spheres%20-%20sampler%20value%203%20-%20AA.png)
+![Multiple Spheres Scene with Anti-Aliasing](raytracing-demo/images/spheres%20-%20sampler%20value%203%20-%20AA.png)
 
 
 ---
 ### Table Scene without Anti-Aliasing
 
 
-![](raytracing-demo/images/table%20scene%20-%20no%20AA.png)
+![Table Scene](raytracing-demo/images/table%20scene%20-%20no%20AA.png)
 
 
 ### Table Scene with Anti-Aliasing + `SAMPLER_VALUE 3`
 
 
-![](raytracing-demo/images/table%20scene%20-%20sampler%20value%203%20-%20AA.png)
+![Table Scene with Anti-Aliasing](raytracing-demo/images/table%20scene%20-%20sampler%20value%203%20-%20AA.png)
 
-
----
